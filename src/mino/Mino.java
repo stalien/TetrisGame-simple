@@ -1,6 +1,8 @@
 package mino;
 
 import java.awt.*;
+
+import main.KeyHandler;
 import main.PlayManager;
 
 public class Mino {
@@ -27,6 +29,38 @@ public class Mino {
     }
 
     public void update() {
+
+        // move controls
+        if (KeyHandler.upPressed) {
+
+        }
+        if (KeyHandler.downPressed) {
+
+            for (Block block : b) {
+                block.y += Block.SIZE;
+            }
+            autoDropCounter = 0;
+
+            KeyHandler.downPressed = false;
+
+        }
+        if (KeyHandler.leftPressed) {
+
+            for (Block block : b) {
+                block.x -= Block.SIZE;
+            }
+
+            KeyHandler.leftPressed = false;
+
+        }
+        if (KeyHandler.rightPressed) {
+
+            for (Block block : b) {
+                block.x += Block.SIZE;
+            }
+
+            KeyHandler.rightPressed = false;
+        }
 
         autoDropCounter++; // increased every frame
         if (autoDropCounter == PlayManager.dropInterval) {
