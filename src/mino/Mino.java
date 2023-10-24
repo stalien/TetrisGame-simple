@@ -1,11 +1,13 @@
 package mino;
 
 import java.awt.*;
+import main.PlayManager;
 
 public class Mino {
 
     public Block[] b = new Block[4];
     public Block[] tempB = new Block[4];
+    int autoDropCounter = 0;
 
     public void create(Color c) {
 
@@ -25,6 +27,15 @@ public class Mino {
     }
 
     public void update() {
+
+        autoDropCounter++; // increased every frame
+        if (autoDropCounter == PlayManager.dropInterval) {
+            // mino go down
+            for (Block block : b) {
+                block.y += Block.SIZE;
+            }
+            autoDropCounter = 0;
+        }
 
     }
 
