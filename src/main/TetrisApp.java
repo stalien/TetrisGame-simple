@@ -1,3 +1,7 @@
+package main;
+
+import main.GamePanel;
+
 import javax.swing.*;
 
 public class TetrisApp {
@@ -13,5 +17,7 @@ public class TetrisApp {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gp.launchGame(); // launch
     }
 }
