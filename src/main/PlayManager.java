@@ -1,8 +1,6 @@
 package main;
 
-import mino.Block;
-import mino.Mino;
-import mino.Mino_L1;
+import mino.*;
 
 import java.awt.*;
 
@@ -31,7 +29,7 @@ public class PlayManager {
         MINO_START_Y = top_y + Block.SIZE;
 
         // starting mino
-        currentMino = new Mino_L1();
+        currentMino = new Mino_Z2();
         currentMino.setXY(MINO_START_X, MINO_START_Y);
 
     }
