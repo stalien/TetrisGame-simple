@@ -59,7 +59,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
 
-        pm.update();
+        if (!KeyHandler.pause) {
+            pm.update();
+        }
 
     }
 
