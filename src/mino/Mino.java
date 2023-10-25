@@ -5,11 +5,12 @@ import java.awt.*;
 import main.KeyHandler;
 import main.PlayManager;
 
-public class Mino {
+public abstract class Mino {
 
     public Block[] b = new Block[4];
     public Block[] tempB = new Block[4];
     int autoDropCounter = 0;
+    public int direction = 1;
 
     public void create(Color c) {
 
@@ -20,18 +21,42 @@ public class Mino {
 
     }
 
-    public void setXY(int x, int y) {
-
-    }
+    public abstract void setXY(int x, int y);
 
     public void updateXY(int direction) {
 
+        this.direction = direction;
+
+        System.arraycopy(tempB, 0, b, 0, b.length);
+
     }
+
+    public abstract void setDirection1();
+    public abstract void setDirection2();
+    public abstract void setDirection3();
+    public abstract void setDirection4();
 
     public void update() {
 
         // move controls
         if (KeyHandler.upPressed) {
+
+            switch (direction) {
+                case 1 :
+                    setDirection2();
+                    break;
+                case 2 :
+                    setDirection3();
+                    break;
+                case 3 :
+                    setDirection4();
+                    break;
+                case 4 :
+                    setDirection1();
+                    break;
+            }
+
+            KeyHandler.upPressed = false;
 
         }
         if (KeyHandler.downPressed) {
