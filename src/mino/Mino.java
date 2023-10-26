@@ -2,6 +2,7 @@ package mino;
 
 import java.awt.*;
 
+import main.GamePanel;
 import main.KeyHandler;
 import main.PlayManager;
 
@@ -137,7 +138,7 @@ public abstract class Mino {
                     setDirection1();
                     break;
             }
-
+            GamePanel.sfx.play(3, false);
             KeyHandler.upPressed = false;
 
         }
@@ -175,6 +176,9 @@ public abstract class Mino {
         }
 
         if (bottomCollision) {
+            if (!deactivating) {
+                GamePanel.sfx.play(4, false);
+            }
             deactivating = true;
         } else {
             autoDropCounter++; // increased every frame

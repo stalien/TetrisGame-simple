@@ -76,6 +76,7 @@ public class PlayManager {
 
             // check to over the game
             if (currentMino.b[0].x == MINO_START_X && currentMino.b[0].y == MINO_START_Y) {
+                GamePanel.sfx.play(2, false);
                 gameOver = true;
             }
 
@@ -148,6 +149,7 @@ public class PlayManager {
 
         // update score
         if (linesCount > 0) {
+            GamePanel.sfx.play(1, false);
             int singleLineScore = 10 * level;
             score += singleLineScore * linesCount;
         }
