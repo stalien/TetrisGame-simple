@@ -86,7 +86,41 @@ public class PlayManager {
     }
 
     private void checkToDeleteLine() {
-        
+        int x = left_x;
+        int y = top_y;
+        int blocksInLineCount = 0;
+
+        while (x < right_x && y < bottom_y) {
+
+            for (Block block : staticBlocks) {
+                if (block.x == x && block.y == y) {
+                    blocksInLineCount++;
+                }
+            }
+
+            x += Block.SIZE;
+            if (x == right_x) {
+
+                // if line is full, we can delete it
+                if (blocksInLineCount == 12) {
+
+                    // remove the line
+                    int finalY = y;
+                    staticBlocks.removeIf(b -> b.y == finalY);
+
+                    // shift down blocks
+                    for (Block block : staticBlocks) {
+                        if (block.y < y) {
+                            block.y += Block.SIZE;
+                        }
+                    }
+                }
+
+                y += Block.SIZE;
+                x = left_x;
+                blocksInLineCount = 0;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
