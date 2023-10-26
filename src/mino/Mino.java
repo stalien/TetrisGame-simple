@@ -16,6 +16,8 @@ public abstract class Mino {
     boolean bottomCollision;
     boolean rotateCollision;
     public boolean active = true;
+    public boolean deactivating;
+    int deactivateCounter = 0;
 
     public void create(Color c) {
 
@@ -68,6 +70,8 @@ public abstract class Mino {
     public void checkRotationCollision() {
         rotateCollision = false;
 
+        checkStaticBlockCollision(tempB);
+
         for (Block block : tempB) {
             if (block.x < PlayManager.left_x) {
                 rotateCollision = true;
@@ -85,9 +89,36 @@ public abstract class Mino {
 
     }
 
+    public void checkStaticBlockCollision(Block[] blocks) {
+        for (Block staticBlock : PlayManager.staticBlocks) {
+            int targetX = staticBlock.x;
+            int targetY = staticBlock.y;
+
+            for (Block minoBlock : b) {
+                if (minoBlock.y + Block.SIZE == targetY && minoBlock.x == targetX) {
+                    bottomCollision = true;
+                    rotateCollision = true;
+                }
+                if (minoBlock.x == targetX + Block.SIZE && minoBlock.y == targetY) {
+                    leftCollision = true;
+                    rotateCollision = true;
+                }
+                if (minoBlock.x + Block.SIZE == targetX && minoBlock.y == targetY) {
+                    rightCollision = true;
+                    rotateCollision = true;
+                }
+            }
+        }
+    }
+
     public void update() {
 
+        if (deactivating) {
+            deactivate();
+        }
+
         checkMovementCollision();
+        checkStaticBlockCollision(b);
 
         // move controls
         if (KeyHandler.upPressed) {
@@ -144,7 +175,7 @@ public abstract class Mino {
         }
 
         if (bottomCollision) {
-            active = false;
+            deactivating = true;
         } else {
             autoDropCounter++; // increased every frame
             if (autoDropCounter == PlayManager.dropInterval) {
@@ -156,6 +187,20 @@ public abstract class Mino {
             }
         }
 
+    }
+
+    private void deactivate() {
+        deactivateCounter++;
+
+        if (deactivateCounter > 44) {
+            checkMovementCollision();
+            checkStaticBlockCollision(b);
+            if (bottomCollision) {
+                active = false;
+            }
+
+            deactivateCounter = 0;
+        }
     }
 
     public void draw(Graphics2D g2) {
