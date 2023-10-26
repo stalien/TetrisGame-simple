@@ -117,9 +117,20 @@ public class PlayManager {
                     // remove the line
                     int finalY = y;
                     staticBlocks.removeIf(b -> b.y == finalY);
+
                     // update statistic
                     linesCount++;
                     lines++;
+
+                    // increment drop speed
+                    if (lines % 10 == 0 && dropInterval > 1) {
+                        level++;
+                        if (dropInterval > 10) {
+                            dropInterval -= 10;
+                        } else {
+                            dropInterval -= 1;
+                        }
+                    }
 
                     // shift down blocks
                     for (Block block : staticBlocks) {
