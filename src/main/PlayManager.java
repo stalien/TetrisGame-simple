@@ -22,6 +22,7 @@ public class PlayManager {
     final int NEXTMINO_X;
     final int NEXTMINO_Y;
     public static List<Block> staticBlocks = new ArrayList<Block>();
+    public boolean gameOver;
 
     public static int dropInterval = 60;
 
@@ -69,6 +70,11 @@ public class PlayManager {
             staticBlocks.add(currentMino.b[1]);
             staticBlocks.add(currentMino.b[2]);
             staticBlocks.add(currentMino.b[3]);
+
+            // check to over the game
+            if (currentMino.b[0].x == MINO_START_X && currentMino.b[0].y == MINO_START_Y) {
+                gameOver = true;
+            }
 
             currentMino.deactivating = false;
             currentMino = nextMino;
@@ -157,6 +163,16 @@ public class PlayManager {
             x = left_x + 80;
             y = top_y + 320;
             g2.drawString("paused", x, y);
+        }
+        if (gameOver) {
+
+            x = left_x + 30;
+            y = top_y + 320;
+            g2.drawRect(x - 10, y - 60, 320, 100);
+            g2.setColor(Color.BLACK);
+            g2.fillRect(x - 5, y - 55, 310, 90);
+            g2.setColor(Color.YELLOW);
+            g2.drawString("GAME OVER", x, y);
         }
 
     }
