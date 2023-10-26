@@ -23,6 +23,9 @@ public class PlayManager {
     final int NEXTMINO_Y;
     public static List<Block> staticBlocks = new ArrayList<Block>();
     public boolean gameOver;
+    public int level = 1;
+    public int lines;
+    public int score;
 
     public static int dropInterval = 60;
 
@@ -95,6 +98,7 @@ public class PlayManager {
         int x = left_x;
         int y = top_y;
         int blocksInLineCount = 0;
+        int linesCount = 0;
 
         while (x < right_x && y < bottom_y) {
 
@@ -113,6 +117,9 @@ public class PlayManager {
                     // remove the line
                     int finalY = y;
                     staticBlocks.removeIf(b -> b.y == finalY);
+                    // update statistic
+                    linesCount++;
+                    lines++;
 
                     // shift down blocks
                     for (Block block : staticBlocks) {
@@ -126,6 +133,12 @@ public class PlayManager {
                 x = left_x;
                 blocksInLineCount = 0;
             }
+        }
+
+        // update score
+        if (linesCount > 0) {
+            int singleLineScore = 10 * level;
+            score += singleLineScore * linesCount;
         }
     }
 
@@ -142,6 +155,12 @@ public class PlayManager {
         g2.drawRect(x, y, 200, 200);
         g2.setFont(new Font("Roboto", Font.BOLD, 30));
         g2.drawString("next", x+60, y+40);
+
+        // score frame
+        g2.drawRect(x, top_y, 250, 300);
+        g2.drawString("LEVEL: " + level, x+40, top_y+90);
+        g2.drawString("LINES: " + lines, x+40, top_y+160);
+        g2.drawString("SCORE: " + score, x+40, top_y+230);
 
         // draw mino
         if(currentMino != null) {
